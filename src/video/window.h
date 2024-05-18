@@ -14,11 +14,23 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "main_loop.h"
-#include <stdio.h>
+#ifndef WINDOW_H
+#define WINDOW_H
 
-int main(int argc, char * argv[]) {
-    MainLoop::get_singleton()->run();
-    return EXIT_SUCCESS;
-}
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_opengl.h>
 
+class Window {
+    SDL_Window * window;
+    SDL_GLContext context;
+    bool quit = false;
+
+public:
+    Window();
+    ~Window();
+
+    bool should_close() const { return quit; }
+    void close_window() { quit = true; }
+};
+
+#endif
