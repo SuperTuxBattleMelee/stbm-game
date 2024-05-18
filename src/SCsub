@@ -1,0 +1,10 @@
+#!/usr/bin/env python
+
+Import("env")
+
+env.game_files = [
+    'src/main_loop.cpp',
+    'src/main.cpp',
+]
+
+SConscript('video/SCsub')

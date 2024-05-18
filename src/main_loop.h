@@ -14,11 +14,22 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "main_loop.h"
-#include <stdio.h>
+#ifndef MAIN_LOOP_H
+#define MAIN_LOOP_H
 
-int main(int argc, char * argv[]) {
-    MainLoop::get_singleton()->run();
-    return EXIT_SUCCESS;
-}
+#include "video/window.h"
 
+class MainLoop {
+    static MainLoop singleton;
+    Window * window;
+
+    MainLoop();
+    ~MainLoop();
+
+public:
+    static MainLoop * get_singleton();
+
+    void run();
+};
+
+#endif
