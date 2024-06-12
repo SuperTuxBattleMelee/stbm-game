@@ -31,6 +31,7 @@ public:
 
     bool should_close() const { return quit; }
     void close_window() { quit = true; }
+    void swap_window();
 };
 
 #endif

@@ -18,26 +18,27 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
+#include <stdexcept>
 
 MainLoop MainLoop::singleton;
 
 MainLoop::MainLoop() {
     if(SDL_Init(SDL_INIT_EVERYTHING) < 0) {
-        fprintf(stderr, "Failed to initialize SDL! (%s)", SDL_GetError());
-        return;
+        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to initialize SDL! (%s)", SDL_GetError());
+        throw std::runtime_error("SDL error");
     }
 
     if(!(IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG) & (IMG_INIT_JPG | IMG_INIT_PNG))) {
-        fprintf(stderr, "Failed to initialize SDL_image! (%s)\n", IMG_GetError());
+        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to initialize SDL_image! (%s)\n", IMG_GetError());
         SDL_Quit();
-        return;
+        throw std::runtime_error("IMG error");
     }
 
     if(TTF_Init() < 0) {
-        fprintf(stderr, "Failed to initialize SDL_ttf! (%s)\n", TTF_GetError());
+        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to initialize SDL_ttf! (%s)\n", TTF_GetError());
         IMG_Quit();
         SDL_Quit();
-        return;
+        throw std::runtime_error("TTF error");
     }
 
     window = new Window();
@@ -64,5 +65,7 @@ void MainLoop::run() {
                 break;
             }
         }
+
+        window->swap_window();
     }
 }

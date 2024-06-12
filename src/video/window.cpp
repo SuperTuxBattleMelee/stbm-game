@@ -41,3 +41,7 @@ Window::~Window() {
     if(window)
         SDL_DestroyWindow(window);
 }
+
+void Window::swap_window() {
+    SDL_GL_SwapWindow(window);
+}
