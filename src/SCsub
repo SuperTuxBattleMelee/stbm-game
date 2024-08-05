@@ -3,7 +3,6 @@
 Import("env")
 
 env.game_files = [
-    'src/main_loop.cpp',
     'src/main.cpp',
 ]
 

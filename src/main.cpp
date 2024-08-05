@@ -14,11 +14,61 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "main_loop.h"
-#include <stdio.h>
+#include "video/window.h"
+#include <stdlib.h>
+#ifdef __GNUC__
+#include <unistd.h>
+#endif
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 
 int main(int argc, char * argv[]) {
-    MainLoop::get_singleton()->run();
+#ifdef __GNUC__
+    if(geteuid() == 0) {
+        fprintf(stderr, "Executing the game as root user is forbidden for security purpose\n");
+        return EXIT_FAILURE;
+    }
+#endif
+    if(SDL_Init(SDL_INIT_EVERYTHING) < 0) {
+        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to initialize SDL! (%s)", SDL_GetError());
+        return EXIT_FAILURE;
+    }
+
+    if(!(IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG) & (IMG_INIT_JPG | IMG_INIT_PNG))) {
+        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to initialize SDL_image! (%s)", IMG_GetError());
+        SDL_Quit();
+        return EXIT_FAILURE;
+    }
+
+    if(TTF_Init() < 0) {
+        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to initialize SDL_ttf! (%s)", TTF_GetError());
+        IMG_Quit();
+        SDL_Quit();
+        return EXIT_FAILURE;
+    }
+
+    // TODO: Thinking about using the other SDL libraries
+
+    {
+        Window window;
+        while(!window.should_close()) {
+            // TODO: Create an Event class to not bloat this part later on
+            SDL_Event event;
+            while(SDL_PollEvent(&event)) {
+                switch(event.type) {
+                case SDL_QUIT:
+                    window.close_window();
+                    break;
+                }
+            }
+
+            window.swap_window();
+        }
+    }
+    
+    TTF_Quit();
+    IMG_Quit();
+    SDL_Quit();
     return EXIT_SUCCESS;
 }
-
