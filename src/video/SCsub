@@ -3,3 +3,5 @@
 Import("env")
 
 env.game_files += ['src/video/window.cpp']
+
+SConscript('gl/SCsub')

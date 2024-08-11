@@ -1,0 +1,7 @@
+#!/usr/bin/env python
+
+Import("env")
+
+env.game_files += [
+    'src/video/gl/glcontext21.cpp',
+]

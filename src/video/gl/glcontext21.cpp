@@ -14,25 +14,22 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef WINDOW_H
-#define WINDOW_H
+#include "video/gl/glcontext21.h"
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_opengl.h>
+void GLContext21::bind() {
+    glDisable(GL_DEPTH_TEST);
+    glDisable(GL_CULL_FACE);
+    glEnable(GL_BLEND);
+}
 
-class Window {
-    SDL_Window * window;
-    SDL_GLContext context;
-    bool quit = false;
+void GLContext21::ortho(double w, double h) {
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrtho(0, w, h, 0, -1, 1);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+}
 
-public:
-    Window();
-    ~Window();
-
-    bool should_close() const { return quit; }
-    void close_window() { quit = true; }
-    void swap_window();
-    SDL_Window * get_window() const { return window; }
-};
-
-#endif
+void GLContext21::blend_func(GLenum src, GLenum dst) {
+    glBlendFunc(src, dst);
+}

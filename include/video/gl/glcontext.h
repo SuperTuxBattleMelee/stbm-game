@@ -14,25 +14,18 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef WINDOW_H
-#define WINDOW_H
+#ifndef GLCONTEXT_H
+#define GLCONTEXT_H
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_opengl.h>
+#include "gl.h"
 
-class Window {
-    SDL_Window * window;
-    SDL_GLContext context;
-    bool quit = false;
-
+class GLContext {
 public:
-    Window();
-    ~Window();
+    virtual ~GLContext() {}
 
-    bool should_close() const { return quit; }
-    void close_window() { quit = true; }
-    void swap_window();
-    SDL_Window * get_window() const { return window; }
+    virtual void bind() = 0;
+    virtual void ortho(double w, double h) = 0;
+    virtual void blend_func(GLenum src, GLenum dst) = 0;
 };
 
 #endif

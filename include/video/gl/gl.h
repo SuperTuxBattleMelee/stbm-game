@@ -14,25 +14,9 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef WINDOW_H
-#define WINDOW_H
+#ifndef GLUTILS_H
+#define GLUTILS_H
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_opengl.h>
-
-class Window {
-    SDL_Window * window;
-    SDL_GLContext context;
-    bool quit = false;
-
-public:
-    Window();
-    ~Window();
-
-    bool should_close() const { return quit; }
-    void close_window() { quit = true; }
-    void swap_window();
-    SDL_Window * get_window() const { return window; }
-};
+#include <GL/gl.h>
 
 #endif

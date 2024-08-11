@@ -15,6 +15,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "video/window.h"
+#include "video/gl/glcontext21.h"
 #include <stdlib.h>
 #ifdef __GNUC__
 #include <unistd.h>
@@ -52,6 +53,7 @@ int main(int argc, char * argv[]) {
 
     {
         Window window;
+        GLContext * context = new GLContext21();
         while(!window.should_close()) {
             // TODO: Create an Event class to not bloat this part later on
             SDL_Event event;
@@ -63,8 +65,17 @@ int main(int argc, char * argv[]) {
                 }
             }
 
+            int w, h;
+            SDL_GetWindowSize(window.get_window(), &w, &h);
+            context->bind();
+            context->blend_func(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            context->ortho(w, h);
+            glClearColor(0, 0, 0, 1);
+            glClear(GL_COLOR_BUFFER_BIT);
             window.swap_window();
         }
+
+        delete context;
     }
     
     TTF_Quit();
