@@ -1,3 +1,7 @@
+# The repo has been moved to Codeberg. To contribute to the project, head over here: https://codeberg.org/SuperTuxBattleMelee/stbm-game
+
+---
+
 # SuperTuxBattleMelee
 
 SuperTuxBattleMelee is a platform fighter featuring Tux and his friends (or arch nemesis). Fight in several arenas, eject your opponents, and be the mascot king/queen.
